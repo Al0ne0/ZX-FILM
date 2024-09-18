@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZX FILM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Barra superior */
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Contenido principal */
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        /* Tarjetas de categorías */
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category h3 {
+            color: #333;
+        }
+
+        .media-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .media-item input[type="text"] {
+            width: 300px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        .copy-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Diseño responsivo */
+        @media (max-width: 600px) {
+            .media-item input[type="text"] {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .media-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra superior -->
+    <div class="navbar">
+        ZX FILM
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <!-- Categoría de series -->
+        <div class="category" id="series-category">
+            <h2>Series</h2>
+
+            <!-- Ejemplo de serie con capítulos -->
+            <div class="series-item">
+                <h3>Serie 1</h3>
+
+                <div class="media-item">
+                    <input type="text" value="https://youtu.be/eQf4fqNhhPE?si=d10SfWWwfwG4lDmD" id="link1">
+                    <button class="copy-btn" onclick="copyToClipboard('link1')">Copiar link</button>
+                </div>
+
+                <div class="media-item">
+                    <input type="text" value="https://link-al-capitulo-2.com" id="link2">
+                    <button class="copy-btn" onclick="copyToClipboard('link2')">Copiar link</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categoría de películas -->
+        <div class="category" id="movies-category">
+            <h2>Películas</h2>
+
+            <!-- Ejemplo de película -->
+            <div class="movie-item">
+                <h3>Película 1</h3>
+
+                <div class="media-item">
+                    <input type="text" value="https://link-a-la-pelicula.com" id="link3">
+                    <button class="copy-btn" onclick="copyToClipboard('link3')">Copiar link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* Para dispositivos móviles */
+            document.execCommand("copy");
+            alert("Link copiado: " + copyText.value);
+        }
+    </script>
+
+</body>
+</html>

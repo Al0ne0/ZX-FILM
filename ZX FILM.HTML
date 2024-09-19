@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZX FILM</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+        .header {
+            background-color: #e50914;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .movie-list, .episode-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .movie-list li, .episode-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .movie-list li:hover, .episode-list li:hover {
+            background-color: #555;
+        }
+        .video-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background-color: #000;
+        }
+        iframe {
+            width: 90%;
+            height: 90vh;
+            border: none;
+        }
+        .back-btn, .episode-back-btn {
+            padding: 10px 20px;
+            background-color: #e50914;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">ZX FILM</div>
+
+    <div class="container" id="mainContainer">
+        <ul class="movie-list" id="movieList">
+            <li data-url="https://drive.google.com/file/d/153QMGJLgNuVfJI41zK12ygHMz_Hr3nCo/preview">Película 1</li>
+            <li data-url="https://drive.google.com/file/d/ID_DEL_VIDEO_DE_DRIVE/preview">Película 2</li>
+            <li data-series="true">Serie 1</li>
+        </ul>
+    </div>
+
+    <div class="container" id="episodeContainer" style="display: none;">
+        <ul class="episode-list" id="episodeList"></ul>
+        <button class="episode-back-btn" onclick="showMain()">Volver a las series</button>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+        <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        <button class="back-btn" onclick="goBack()">Regresar</button>
+    </div>
+
+    <script>
+        const movieList = document.getElementById('movieList');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoFrame = document.getElementById('videoFrame');
+        const mainContainer = document.getElementById('mainContainer');
+        const episodeContainer = document.getElementById('episodeContainer');
+        const episodeList = document.getElementById('episodeList');
+
+        // Definimos las series y episodios con URLs de Google Drive
+        const seriesEpisodes = {
+            'Serie 1': [
+                { title: 'Capítulo 1', url: 'https://drive.google.com/file/d/ID_DEL_VIDEO_DE_DRIVE_1/preview' },
+                { title: 'Capítulo 2', url: 'https://drive.google.com/file/d/ID_DEL_VIDEO_DE_DRIVE_2/preview' }
+            ]
+        };
+
+        // Escuchar eventos en la lista de películas/series
+        movieList.addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                const series = event.target.getAttribute('data-series');
+                if (series) {
+                    showEpisodes(event.target.innerText);
+                } else {
+                    const videoUrl = event.target.getAttribute('data-url');
+                    playVideo(videoUrl);
+                }
+            }
+        });
+
+        // Reproducir video
+        function playVideo(url) {
+            videoFrame.src = url;
+            mainContainer.style.display = 'none';
+            videoContainer.style.display = 'flex';
+        }
+
+        // Volver al menú principal
+        function goBack() {
+            videoFrame.src = '';
+            videoContainer.style.display = 'none';
+            mainContainer.style.display = 'flex';
+        }
+
+        // Mostrar episodios de una serie
+        function showEpisodes(seriesName) {
+            episodeList.innerHTML = '';
+            seriesEpisodes[seriesName].forEach(episode => {
+                const li = document.createElement('li');
+                li.innerText = episode.title;
+                li.setAttribute('data-url', episode.url);
+                episodeList.appendChild(li);
+            });
+            mainContainer.style.display = 'none';
+            episodeContainer.style.display = 'flex';
+        }
+
+        // Volver a la lista de series
+        function showMain() {
+            episodeContainer.style.display = 'none';
+            mainContainer.style.display = 'flex';
+        }
+
+        // Escuchar eventos en la lista de episodios
+        episodeList.addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                const videoUrl = event.target.getAttribute('data-url');
+                playVideo(videoUrl);
+            }
+        });
+    </script>
+</body>
+</html>
